@@ -1,0 +1,246 @@
+:root {
+  --brand: #0b5ed7;
+  --brand-2: #0a3c8a;
+  --ink: #0b1220;
+  --muted: #6b7280;
+  --bg: #0b0f19;
+  --surface: #0f1422;
+  --accent: #22c55e;
+}
+
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: #e5e7eb;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Sora", "Inter", sans-serif;
+  color: #ffffff;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--brand-2);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+}
+
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.25);
+  border-color: var(--accent);
+}
+
+/* Surfaces */
+.bg-surface {
+  background-color: var(--surface) !important;
+}
+
+.text-accent {
+  color: var(--accent) !important;
+}
+
+/* Tweak container max-width for large screens */
+@media (min-width: 1400px) {
+
+  .container,
+  .container-lg,
+  .container-xl,
+  .container-xxl {
+    max-width: 1200px;
+  }
+}
+
+/* Navbar link color on dark bg */
+.nav-link {
+  color: #c7cbd2;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #ffffff;
+}
+
+/* Muted text */
+.text-muted {
+  color: #9aa4b2 !important;
+}
+
+/* Sticky header + shadow on scroll */
+.sticky-header {
+  z-index: 1030;
+}
+
+.sticky-header .navbar {
+  background: rgba(15, 20, 34, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sticky-header.has-shadow {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.topbar {
+  color: #c7cbd2;
+}
+
+.offcanvas {
+  height: 100vh !important;
+  top: 0;
+  bottom: 0;
+}
+
+.offcanvas-body {
+  flex-grow: 1;
+  padding: var(--bs-offcanvas-padding-y) var(--bs-offcanvas-padding-x);
+  overflow-y:hidden;
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(11, 15, 25, 0.55), rgba(11, 15, 25, 0.85)), url('../img/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  color: #c7cbd2;
+  font-size: 2rem;
+  line-height: 1;
+  opacity: 0.9;
+  animation: bounceY 1.8s infinite ease-in-out;
+}
+
+.scroll-cue:hover {
+  color: #ffffff;
+}
+
+@keyframes bounceY {
+
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, -8px);
+  }
+}
+
+/* Floating WhatsApp button */
+.fab-whatsapp {
+  position: fixed;
+  right: 1rem;
+  bottom: 5rem;
+  z-index: 1040;
+}
+
+/* Mobile sticky action bar */
+.mobile-sticky-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1040;
+  background: rgba(15, 20, 34, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .mobile-sticky-bar {
+    display: none;
+  }
+}
+
+/* Sticky call bar for mobile (contact page) */
+.call-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1029;
+  background: rgba(15, 20, 34, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateY(0);
+  transition: transform 0.25s ease;
+}
+
+.call-bar.hide {
+  transform: translateY(-100%);
+}
+
+@media (min-width: 768px) {
+  .call-bar {
+    display: none;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .scroll-cue {
+    animation: none;
+  }
+
+  .card-lift,
+  .btn-glow {
+    transition: none;
+  }
+
+  .hero-bg {
+    transform: none !important;
+  }
+
+  .band-cta,
+  .call-bar {
+    transition: none;
+  }
+}

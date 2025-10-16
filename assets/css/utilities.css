@@ -1,0 +1,42 @@
+.shadow-soft {
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.35),
+    0 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-glow:hover {
+  box-shadow:
+    0 0 0 0.2rem rgba(11, 94, 215, 0.25),
+    0 6px 20px rgba(11, 94, 215, 0.35);
+}
+
+.badge-soft {
+  display: inline-block;
+  padding: 0.35rem 0.6rem;
+  border-radius: 50rem;
+  background-color: rgba(11, 94, 215, 0.15);
+  border: 1px solid rgba(11, 94, 215, 0.3);
+  color: #cfe2ff;
+}
+
+.rounded-2xl {
+  border-radius: 1.25rem !important;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
