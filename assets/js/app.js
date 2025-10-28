@@ -163,6 +163,70 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Gallery modal: build carousel slides dynamically per-card when clicked
+document.addEventListener('DOMContentLoaded', () => {
+  const galleryCards = Array.from(document.querySelectorAll('.gallery-card'));
+  const galleryModalEl = document.getElementById('galleryModal');
+  const carouselInner = galleryModalEl && galleryModalEl.querySelector('.carousel-inner');
+  const carouselEl = galleryModalEl && galleryModalEl.querySelector('#galleryCarousel');
+  let bsModal;
+  if (!galleryModalEl || !carouselInner || !carouselEl || galleryCards.length === 0) return;
+
+  bsModal = new bootstrap.Modal(galleryModalEl, { keyboard: true });
+
+  const buildSlidesFor = (images, title) => {
+    // images: array of {src, alt?} or strings
+    carouselInner.innerHTML = images.map((img, i) => {
+      const src = typeof img === 'string' ? img : (img.src || '');
+      const alt = typeof img === 'string' ? (title || '') : (img.alt || title || '');
+      return `
+        <div class="carousel-item ${i===0? 'active': ''}">
+          <img src="${src}" class="d-block w-100" alt="${alt}">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>${title || ''}</h5>
+          </div>
+        </div>
+      `;
+    }).join('');
+  };
+
+  galleryCards.forEach((card, i) => {
+    const open = (e) => {
+      e && e.preventDefault();
+      // parse images from data-images attribute (JSON) or fallback to the img inside card
+      let images = [];
+      const raw = card.getAttribute('data-images');
+      if (raw) {
+        try { images = JSON.parse(raw); }
+        catch (err) { images = [card.querySelector('img')?.getAttribute('src') || '']; }
+      } else {
+        images = [card.querySelector('img')?.getAttribute('src') || ''];
+      }
+      // Ensure array of strings
+      if (!Array.isArray(images)) images = [images];
+
+      const title = card.dataset.title || '';
+      buildSlidesFor(images, title);
+
+      // show modal and jump to first slide
+      bsModal.show();
+      const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl, { interval: false });
+      carousel.to(0);
+    };
+
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); open(ev); } });
+  });
+
+  // Pause carousel when modal hidden
+  galleryModalEl.addEventListener('hidden.bs.modal', () => {
+    const instance = bootstrap.Carousel.getInstance(carouselEl);
+    if (instance) instance.pause();
+    // clear slides (optional)
+    carouselInner.innerHTML = '';
+  });
+});
+
 // Contact page quick message
 document.addEventListener('DOMContentLoaded', () => {
   const qmForm = document.getElementById('quickMessageForm');
