@@ -118,6 +118,11 @@ a:hover {
   overflow-y:hidden;
 }
 
+/* Responsive logo sizing */
+      .site-logo { height: 50px; width: auto; display: inline-block; }
+      @media (min-width: 576px) { .site-logo { height: 36px; } }
+      @media (min-width: 992px) { .site-logo { height: 44px; } }
+
 /* Hero */
 .hero {
   min-height: 100vh;

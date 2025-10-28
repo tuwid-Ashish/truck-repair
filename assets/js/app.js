@@ -140,6 +140,29 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Timeline card interactive toggles: click or Enter/Space to lift (toggle .is-active), Esc to close
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = Array.from(document.querySelectorAll('.timeline-card'));
+  if (!cards.length) return;
+  cards.forEach((card) => {
+    // click toggles active state
+    card.addEventListener('click', (e) => {
+      card.classList.toggle('is-active');
+    });
+
+    // keyboard accessibility: Enter / Space to toggle, Esc to remove
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('is-active');
+      }
+      if (e.key === 'Escape') {
+        card.classList.remove('is-active');
+      }
+    });
+  });
+});
+
 // Contact page quick message
 document.addEventListener('DOMContentLoaded', () => {
   const qmForm = document.getElementById('quickMessageForm');

@@ -1,0 +1,99 @@
+/* Timeline card styles: white cards with light shadow and traffic-light dots */
+.timeline {
+  margin-top: 0.5rem;
+}
+
+.timeline-card {
+  background: #ffffff;
+  color: #0b0f19;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(11,15,25,0.06);
+  transition: transform 220ms var(--bs-easing, cubic-bezier(.2,.9,.3,1)), box-shadow 220ms;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* hover and focus lift */
+.timeline-card:hover,
+.timeline-card:focus,
+.timeline-card.is-active {
+  transform: translateY(-10px);
+  box-shadow: 0 18px 50px rgba(11,15,25,0.12);
+}
+
+.timeline-card:focus {
+  outline: none;
+  box-shadow: 0 18px 50px rgba(11,15,25,0.14), 0 0 0 4px rgba(13,110,253,0.06);
+}
+
+.timeline-card h3 {
+  color: var(--bs-primary, #0d6efd);
+}
+
+.timeline-card .small.text-muted {
+  color: #6c757d;
+}
+
+.timeline-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.timeline-card ul li {
+  position: relative;
+  padding-left: 34px;
+  margin-bottom: .6rem;
+  color: #495057;
+}
+
+.timeline-card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .45rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #6c757d;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
+/* Per-step colored (traffic light) dots */
+.timeline-step--red .timeline-card ul li::before {
+  background: #ef4444; /* red */
+  box-shadow: 0 6px 18px rgba(239,68,68,0.16);
+}
+.timeline-step--yellow .timeline-card ul li::before {
+  background: #f59e0b; /* amber/yellow */
+  box-shadow: 0 6px 18px rgba(245,158,11,0.12);
+}
+.timeline-step--green .timeline-card ul li::before {
+  background: #22c55e; /* green */
+  box-shadow: 0 6px 18px rgba(34,197,94,0.12);
+}
+
+/* make card content colors match theme while keeping contrast */
+.timeline-card h3 { margin-top: 0; }
+.timeline-card p, .timeline-card li { color: #374151; }
+.timeline-card .small.text-muted { color: #6b7280; }
+
+/* ensure equal-height columns on larger screens */
+@media (min-width: 768px) {
+  .timeline .col-md-4 { display: flex; }
+  .timeline .col-md-4 .timeline-card { flex: 1 1 auto; }
+}
+
+/* Dark-mode friendly adjustments
+@media (prefers-color-scheme: dark) {
+  .timeline-card {
+    background: #0b0f19;
+    color: #e6eef8;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  }
+  .timeline-card .small.text-muted { color: #9aa4b2; }
+  .timeline-card ul li { color: #c7d2fe; }
+} */
+
