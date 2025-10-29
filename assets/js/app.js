@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (method === 'email') {
       window.location.href = `mailto:service@torquefix.example?subject=Service%20Booking&body=${message}`;
     } else {
-      window.open(`https://wa.me/18005550199?text=${message}`,'_blank');
+      window.open(`https://wa.me/14319993923?text=${message}`,'_blank');
     }
     dialog?.close();
   });
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const phone = fd.get('phone') || '';
       const message = fd.get('message') || '';
       const body = `Quick Message%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AMessage: ${encodeURIComponent(message)}`;
-      window.location.href = `mailto:support@torquefix.example?subject=Quick%20Message&body=${body}`;
+      window.location.href = `mailto:Tracertruckrepairs@gmail.com?subject=Quick%20Message&body=${body}`;
     });
   }
   if (waBtn && qmForm) {
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const phone = fd.get('phone') || '';
       const message = fd.get('message') || '';
       const text = `Quick Message%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AMessage: ${encodeURIComponent(message)}`;
-      window.open(`https://wa.me/18005550199?text=${text}`, '_blank');
+      window.open(`https://wa.me/14319993923?text=${text}`, '_blank');
     });
   }
 });
@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = fd.get('email') || '';
       const position = fd.get('position') || '';
       const text = `Job Application%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AEmail: ${encodeURIComponent(email)}%0APosition: ${encodeURIComponent(position)}%0A(Attach resume in chat)`;
-      window.open(`https://wa.me/18005550199?text=${text}`, '_blank');
+      window.open(`https://wa.me/14319993923?text=${text}`, '_blank');
     });
   }
 });
