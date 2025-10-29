@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const method = fd.get('method') || 'whatsapp';
     const message = `Booking Request%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AVehicle: ${encodeURIComponent(vehicle)}%0AIssue: ${encodeURIComponent(issue)}%0APref Time: ${encodeURIComponent(time)}`;
     if (method === 'email') {
-      window.location.href = `mailto:service@torquefix.example?subject=Service%20Booking&body=${message}`;
+      window.location.href = `mailto:Tracertruckrepairs@gmail.com?subject=Service%20Booking&body=${message}`;
     } else {
       window.open(`https://wa.me/14319993923?text=${message}`, '_blank');
     }
@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = fd.get('email') || '';
       const position = fd.get('position') || '';
       const body = `Application%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AEmail: ${encodeURIComponent(email)}%0APosition: ${encodeURIComponent(position)}%0A%0AAttach your resume file to this email.`;
-      window.location.href = `mailto:hiring@torquefix.example?subject=Job%20Application&body=${body}`;
+      window.location.href = `mailto:Tracertruckrepairs@gmail.com?subject=Job%20Application&body=${body}`;
     });
     const waBtn = document.getElementById('careersWhatsApp');
     if (waBtn) waBtn.addEventListener('click', () => {
