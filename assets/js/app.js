@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const safeQ = (sel, root=document) => root.querySelector(sel);
-  const safeQA = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const safeQ = (sel, root = document) => root.querySelector(sel);
+  const safeQA = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   if (window.AOS) {
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     AOS.init({
@@ -70,44 +70,72 @@ document.addEventListener("DOMContentLoaded", function () {
     const badge = document.getElementById('openNowBadge');
     if (!badge) return;
     const parseSchedule = () => {
-      const schedule = { 0: [],1: [],2: [],3: [],4: [],5: [],6: [] };
+      const schedule = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
       const container = badge.closest('section, .container, body');
       const table = container && container.querySelector('table');
       if (!table) { // default: open 09:00-21:00 every day except Wednesday (closed)
-        for (let d=0; d<=6; d++) {
+        for (let d = 0; d <= 6; d++) {
           if (d === 3) continue; // Wednesday closed (0=Sun,1=Mon,2=Tue,3=Wed,...)
-          schedule[d].push([9*60, 21*60]);
+          schedule[d].push([9 * 60, 21 * 60]);
         }
         return schedule;
       }
-      const dayMap = { sun:0, mon:1, tue:2, wed:3, thu:4, fri:5, sat:6 };
-      const parseTime = (s) => { const m = /(\d{1,2}):(\d{2})/.exec(s); return m? (parseInt(m[1])*60 + parseInt(m[2])): null; };
+      const dayMap = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+      const parseTime = (s) => { const m = /(\d{1,2}):(\d{2})/.exec(s); return m ? (parseInt(m[1]) * 60 + parseInt(m[2])) : null; };
       table.querySelectorAll('tr').forEach(tr => {
-        const tds = tr.querySelectorAll('td'); if (tds.length<2) return;
+        const tds = tr.querySelectorAll('td'); if (tds.length < 2) return;
         const dayText = tds[0].textContent.trim().toLowerCase();
         const timeText = tds[1].textContent.trim();
         if (/closed/i.test(timeText)) return;
-        const parts = timeText.split(/[–-]/).map(s=>s.trim());
-        const start = parseTime(parts[0]); const end = parseTime(parts[1]||'');
-        const addRange=(d)=>{ if (start!=null && end!=null) schedule[d].push([start,end]); };
+        const parts = timeText.split(/[–-]/).map(s => s.trim());
+        const start = parseTime(parts[0]); const end = parseTime(parts[1] || '');
+        const addRange = (d) => { if (start != null && end != null) schedule[d].push([start, end]); };
         if (dayText.includes('–') || dayText.includes('-')) {
-          const [a,b] = dayText.split(/[–-]/).map(s=>s.trim().slice(0,3));
-          const sd=dayMap[a], ed=dayMap[b]; if (sd==null||ed==null) return;
-          for (let d=sd; ; d=(d+1)%7) { addRange(d); if (d===ed) break; }
+          const [a, b] = dayText.split(/[–-]/).map(s => s.trim().slice(0, 3));
+          const sd = dayMap[a], ed = dayMap[b]; if (sd == null || ed == null) return;
+          for (let d = sd; ; d = (d + 1) % 7) { addRange(d); if (d === ed) break; }
         } else {
-          const d = dayMap[dayText.slice(0,3)]; if (d!=null) addRange(d);
+          const d = dayMap[dayText.slice(0, 3)]; if (d != null) addRange(d);
         }
       });
       return schedule;
     };
     const schedule = parseSchedule();
-    const now = new Date();
-    const utcMinutes = now.getUTCMinutes() + now.getUTCHours() * 60 + now.getUTCDay() * 24 * 60;
-    const istTotalMinutes = utcMinutes + Math.floor(5.5 * 60);
-    const istDay = Math.floor(istTotalMinutes / (24 * 60)) % 7;
-    const dayMinutes = istTotalMinutes % (24 * 60);
-    const open = (schedule[istDay]||[]).some(([s,e]) => dayMinutes>=s && dayMinutes<e);
-    badge.className = 'badge rounded-pill ' + (open ? 'bg-success' : 'bg-secondary');
+    const timeZone = badge.dataset.tz || 'America/Toronto';
+    let localDay = null;
+    let dayMinutes = null;
+
+    // Prefer Intl API for accurate timezone (handles DST)
+    try {
+      const now = new Date();
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone,
+        hour12: false,
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).formatToParts(now);
+
+      const getPart = (type) => (parts.find(p => p.type === type) || {}).value;
+      const hour = parseInt(getPart('hour') || '0', 10);
+      const minute = parseInt(getPart('minute') || '0', 10);
+      const weekdayShort = (getPart('weekday') || 'Sun').toLowerCase().slice(0,3);
+
+      const dayMap = { sun:0, mon:1, tue:2, wed:3, thu:4, fri:5, sat:6 };
+      localDay = dayMap[weekdayShort] ?? 0;
+      dayMinutes = hour * 60 + minute;
+    } catch (err) {
+      // Fallback: use browser local time (not timezone-aware)
+      const now = new Date();
+      localDay = now.getDay();
+      dayMinutes = now.getHours() * 60 + now.getMinutes();
+    }
+
+    const open = (schedule[localDay]||[]).some(([s,e]) => dayMinutes>=s && dayMinutes<e);
+
+    // safer class manipulation (preserve other classes)
+    badge.classList.remove('bg-success', 'bg-secondary');
+    badge.classList.add(open ? 'bg-success' : 'bg-secondary');
     badge.textContent = open ? 'Open now' : 'Closed now';
   };
   setOpenNow();
@@ -137,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (method === 'email') {
       window.location.href = `mailto:service@torquefix.example?subject=Service%20Booking&body=${message}`;
     } else {
-      window.open(`https://wa.me/14319993923?text=${message}`,'_blank');
+      window.open(`https://wa.me/14319993923?text=${message}`, '_blank');
     }
     dialog?.close();
   });
@@ -183,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const src = typeof img === 'string' ? img : (img.src || '');
       const alt = typeof img === 'string' ? (title || '') : (img.alt || title || '');
       return `
-        <div class="carousel-item ${i===0? 'active': ''}">
+        <div class="carousel-item ${i === 0 ? 'active' : ''}">
           <img src="${src}" class="d-block w-100" alt="${alt}">
           <div class="carousel-caption d-none d-md-block">
             <h5>${title || ''}</h5>
