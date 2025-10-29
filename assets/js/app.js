@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
   onScroll();
   window.addEventListener('scroll', onScrollThrottled, { passive: true });
 
-  // Hours: show Open now based on Asia/Kolkata time; read from nearby hours table if present
+  // Hours: show Open now based on local schedule; read from nearby hours table if present
   const setOpenNow = () => {
     const badge = document.getElementById('openNowBadge');
     if (!badge) return;
@@ -73,8 +73,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const schedule = { 0: [],1: [],2: [],3: [],4: [],5: [],6: [] };
       const container = badge.closest('section, .container, body');
       const table = container && container.querySelector('table');
-      if (!table) { // default Mon-Sat 09:00-18:00
-        for (let d=1; d<=6; d++) schedule[d].push([9*60, 18*60]);
+      if (!table) { // default: open 09:00-21:00 every day except Wednesday (closed)
+        for (let d=0; d<=6; d++) {
+          if (d === 3) continue; // Wednesday closed (0=Sun,1=Mon,2=Tue,3=Wed,...)
+          schedule[d].push([9*60, 21*60]);
+        }
         return schedule;
       }
       const dayMap = { sun:0, mon:1, tue:2, wed:3, thu:4, fri:5, sat:6 };
