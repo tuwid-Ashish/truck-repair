@@ -702,7 +702,7 @@
     </div>
   </footer>
 
-  <dialog id="bookingDialog" class="form-dialog p-0" aria-modal="true" aria-labelledby="bookingTitle"
+  <dialog id="bookingDialog" class="form-dialog p-0 text-black" aria-modal="true" aria-labelledby="bookingTitle"
     style="border:none;">
     <div class="modal-content bg-dark text-light rounded-3 shadow-lg overflow-hidden" role="document">
       <form method="dialog" id="bookingForm" class="p-3">
@@ -716,31 +716,31 @@
         <div class="row g-2 mb-2">
           <div class="col-md-6">
             <label class="form-label small text-muted">Name</label>
-            <input class="form-control form-control-sm bg-body-secondary text-light border-secondary" name="name"
-              required autocomplete="name" />
+            <input class="form-control form-control-sm bg-body-secondary border-secondary" name="name"
+              required autocomplete="name" placeholder="name" />
           </div>
 
           <div class="col-md-6">
             <label class="form-label small text-muted">Phone</label>
-            <input class="form-control form-control-sm bg-body-secondary text-light border-secondary" name="phone"
-              required inputmode="tel" autocomplete="tel" />
+            <input class="form-control form-control-sm bg-body-secondary border-secondary" name="phone"
+              required inputmode="tel" autocomplete="tel" placeholder="phone" />
           </div>
 
           <div class="col-md-6">
             <label class="form-label small text-muted">Vehicle</label>
-            <input class="form-control form-control-sm bg-body-secondary text-light border-secondary" name="vehicle"
+            <input class="form-control form-control-sm bg-body-secondary border-secondary" name="vehicle"
               placeholder="Make / Model" />
           </div>
 
           <div class="col-md-6">
             <label class="form-label small text-muted">Preferred Time</label>
-            <input class="form-control form-control-sm bg-body-secondary text-light border-secondary" name="time"
+            <input class="form-control form-control-sm bg-body-secondary border-secondary" name="time"
               placeholder="e.g., Tomorrow 10 AM" />
           </div>
 
           <div class="col-12">
             <label class="form-label small text-muted">Issue</label>
-            <textarea class="form-control form-control-sm bg-body-secondary text-light border-secondary" name="issue"
+            <textarea class="form-control form-control-sm bg-body-secondary border-secondary" name="issue"
               rows="3" placeholder="Describe the problem"></textarea>
           </div>
         </div>
